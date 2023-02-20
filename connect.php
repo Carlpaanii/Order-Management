@@ -3,7 +3,6 @@
 $con = new mysqli('localhost', 'root', '', 'ordermanagement');
 //$con = mysqli_connect("localhost", "root", "", "ordermanagement");
 
-if(!$con) {
+if (!$con) {
     die(mysqli_error($con));
 }
-?>

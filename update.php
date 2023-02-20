@@ -1,5 +1,17 @@
 <?php
 include("connect.php");
+$id = $_GET['updateid'];
+$sql = "SELECT * FROM CRUD WHERE id=$id";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$customer = $row['customer'];
+$profile = $row['profile'];
+$material = $row['material'];
+$thickness = $row['thickness'];
+$color = $row['color'];
+$weight = $row['weight'];
+$remarks = $row['remarks'];
 
 if (isset($_POST['submit'])) {
     $nameSend = $_POST['completename'];
@@ -10,12 +22,11 @@ if (isset($_POST['submit'])) {
     $weightSend = $_POST['completeweight'];
     $remarksSend = $_POST['completeremarks'];
 
-    $sql = "INSERT INTO CRUD (customer, profile, material, thickness, color, weight, remarks)
-VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$colorSend', $weightSend,'$remarksSend')";
+    $sql = "UPDATE CRUD SET id=$id, customer='$nameSend', profile= '$roofprofileSend',material='$roofmaterialSend',thickness='$thicknessSend',color='$colorSend',weight='$weightSend',remarks='$remarksSend' WHERE  ID =$id";
 
     $result = mysqli_query($con, $sql);
     if ($result) {
-        //echo "Data Inserted Successfully";
+        //echo "Updated Successfully";
         header('location:display.php');
     } else {
         die(mysqli_error($con));
@@ -51,12 +62,12 @@ VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$c
                     <form method="post">
                         <div class="form-group">
                             <label for="name">NAME</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter Customer Name" name="completename">
+                            <input type="text" class="form-control" id="name" placeholder="Enter Customer Name" name="completename" value=<?php echo $customer; ?>>
                         </div>
                         <div class="roof-profile">
                             <label for="roofprofile">Choose Roof Profile</label>
-                            <select class="form-select" aria-label="Default select example" id="roofprofile" name="completeroofprofile">
-                                <option selected>Roof Profile</option>
+                            <select class="form-select" aria-label="Default select example" id="roofprofile" name="completeroofprofile" value=<?php echo $profile; ?>>
+                                <option>Roof Profile</option>
                                 <option value="SNAPLOCK">SNAPLOCK</option>
                                 <option value="IBR">IBR</option>
                                 <option value="IDT">IDT</option>
@@ -73,7 +84,7 @@ VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$c
                         </div>
                         <div class="roof-materials">
                             <label for="roofmaterials">Choose Roof Materials</label>
-                            <select class="form-select" aria-label="Default select example" id="completeroofmaterials" name="completeroofmaterials">
+                            <select class="form-select" aria-label="Default select example" id="completeroofmaterials" name="completeroofmaterials" value=<?php echo $material; ?>>
                                 <option selected>Roof Materials</option>
                                 <option value="AlUMINIUM">ALUMINIUM</option>
                                 <option value="ALUZINC">ALUZINC</option>
@@ -82,7 +93,7 @@ VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$c
                         </div>
                         <div class="colors-group">
                             <label for="colors">Colors</label>
-                            <select class="form-select" aria-label="Default select example" id="colors" name="completecolors">
+                            <select class="form-select" aria-label="Default select example" id="colors" name="completecolors" value=<?php echo $color; ?>>
                                 <option selected>Select A Color</option>
                                 <option value="B.RED">B.RED</option>
                                 <option value="DEEP OCEAN" class="bg-primary-subtle">DEEP OCEAN</option>
@@ -95,26 +106,26 @@ VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$c
                         </div>
                         <div class="weight-group">
                             <label for="weight">WEIGHT </label><br>
-                            <input type="number" id="weight" name="completeweight">
+                            <input type="number" id="weight" name="completeweight" value=<?php echo $weight; ?>>
                         </div>
                         <div class="thickness-group">
                             <label for="thickness">Thickness</label><br>
-                            <input type="number" id="thickness" name="completethickness" min="0.25" max="3" step="0.05">
+                            <input type="number" id="thickness" name="completethickness" min="0.25" max="3" step="0.05" value=<?php echo $thickness; ?>>
                         </div>
                         <br>
                         <fieldset>
                             <label for="remarks">
-                                <input type="radio" name="completeremarks" value="not-tolling" id="remarks" checked>
+                                <input type="radio" name="completeremarks" value="not-tolling" id="remarks" checked value=<?php echo $remarks; ?>>
                                 NOT TOLLING
                             </label> <br>
                             <label>
-                                <input type="radio" name="completeremarks" value="tolling" id="remarks">
+                                <input type="radio" name="completeremarks" value="tolling" id="remarks" value=<?php echo $remarks; ?>>
                                 TOLLING
                             </label>
                         </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-dark" name="submit">Submit</button>
+                    <button type="submit" class="btn btn-dark" name="submit">Update</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -124,7 +135,7 @@ VALUES ('$nameSend','$roofprofileSend','$roofmaterialSend','$thicknessSend', '$c
         <h1 class="text-center">TMK METALS LIMITED ACK</h1>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#completeModal">
-            ADD NEW USERS
+            UPDATE USER
         </button>
         </form>
 
